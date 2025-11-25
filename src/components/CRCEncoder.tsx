@@ -3,7 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calculator, RefreshCw, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Calculator, RefreshCw, AlertCircle, CheckCircle2, BookOpen } from "lucide-react";
+import { ProblemSolver } from "./ProblemSolver";
 
 // CRC-4 polynomial: G(z) = z^4 + z + 1 (binary: 10011)
 const POLYNOMIAL = 0b10011;
@@ -90,17 +92,31 @@ export const CRCEncoder = () => {
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-bold text-foreground flex items-center justify-center gap-3">
             <Calculator className="w-10 h-10 text-primary" />
-            CRC-4 Encoder & Decoder
+            CRC Encoder & Decoder
           </h1>
           <p className="text-muted-foreground text-lg">
-            Interactive Cyclic Redundancy Check Calculator
+            Interactive Cyclic Redundancy Check Calculator & Problem Solver
           </p>
-          <div className="inline-block">
-            <Badge variant="outline" className="text-base py-1 px-4 font-mono">
-              G(z) = z⁴ + z + 1
-            </Badge>
-          </div>
         </div>
+
+        <Tabs defaultValue="calculator" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto">
+            <TabsTrigger value="calculator" className="gap-2">
+              <Calculator className="w-4 h-4" />
+              Calculator
+            </TabsTrigger>
+            <TabsTrigger value="problems" className="gap-2">
+              <BookOpen className="w-4 h-4" />
+              Problem Solver
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="calculator" className="space-y-6 mt-6">
+            <div className="text-center">
+              <Badge variant="outline" className="text-base py-1 px-4 font-mono">
+                G(z) = z⁴ + z + 1
+              </Badge>
+            </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
           {/* Encoder Section */}
@@ -241,26 +257,32 @@ export const CRCEncoder = () => {
           </Card>
         )}
 
-        {/* Information Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle>About CRC-4</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 text-muted-foreground">
-            <p>
-              CRC (Cyclic Redundancy Check) is an error-detecting code commonly used in digital networks
-              and storage devices to detect accidental changes to raw data.
-            </p>
-            <p>
-              This implementation uses the polynomial <strong className="text-foreground font-mono">G(z) = z⁴ + z + 1</strong>,
-              which in binary is represented as <strong className="text-foreground font-mono">10011</strong>.
-            </p>
-            <p>
-              The encoder appends 4 CRC bits to your data, and the decoder can verify if the data was
-              transmitted correctly by recalculating the CRC and comparing it.
-            </p>
-          </CardContent>
-        </Card>
+            {/* Information Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle>About CRC-4</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-muted-foreground">
+                <p>
+                  CRC (Cyclic Redundancy Check) is an error-detecting code commonly used in digital networks
+                  and storage devices to detect accidental changes to raw data.
+                </p>
+                <p>
+                  This implementation uses the polynomial <strong className="text-foreground font-mono">G(z) = z⁴ + z + 1</strong>,
+                  which in binary is represented as <strong className="text-foreground font-mono">10011</strong>.
+                </p>
+                <p>
+                  The encoder appends 4 CRC bits to your data, and the decoder can verify if the data was
+                  transmitted correctly by recalculating the CRC and comparing it.
+                </p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="problems" className="mt-6">
+            <ProblemSolver />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
